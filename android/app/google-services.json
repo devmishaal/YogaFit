@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "148917854976",
+    "project_id": "yogafit-b03c4",
+    "storage_bucket": "yogafit-b03c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148917854976:android:c5cd4a6339729aebc209e5",
+        "android_client_info": {
+          "package_name": "com.yogafit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCunEVn-_TAlrZuTSwLIbrdLsxWx_5IwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
