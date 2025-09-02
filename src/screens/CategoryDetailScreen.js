@@ -108,7 +108,7 @@ const CategoryDetailScreen = ({ route, navigation }) => {
                   level: pose.difficulty_level,
                 }}
                 onPress={() =>
-                  navigation.navigate('PoseDetailsScreen', { pose })
+                  navigation.navigate('PoseDetailsScreen', { pose : pose.id })
                 }
               />
             ))}

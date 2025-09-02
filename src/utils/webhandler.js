@@ -30,3 +30,17 @@ export const getCategoryById = async (id, level = 'beginner') => {
     return {};
   }
 };
+
+export const getPosebyId = async (id) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/poses?id=${id}`,
+    );
+    if (!response.ok) throw new Error('Failed to fetch category details');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching category by ID:', error);
+    return {};
+  }
+};
+
