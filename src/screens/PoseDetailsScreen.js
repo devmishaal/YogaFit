@@ -13,6 +13,7 @@ import { COLORS, FONTS, globalStyles } from '../styles/globalstyle';
 import { ArrowLeft } from 'lucide-react-native';
 import { getPosebyId } from '../utils/webhandler';
 import CustomButton from '../components/CustomButton';
+import LottieView from 'lottie-react-native';
 
 const PoseDetailsScreen = ({ route, navigation }) => {
   const { pose } = route.params;
@@ -20,7 +21,7 @@ const PoseDetailsScreen = ({ route, navigation }) => {
   const [poses, setPoses] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const [timer, setTimer] = useState(0); // seconds
+  const [timer, setTimer] = useState(0); 
   const [isRunning, setIsRunning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -41,7 +42,6 @@ const PoseDetailsScreen = ({ route, navigation }) => {
     fetchPoses();
   }, []);
 
-  // Timer effect
   useEffect(() => {
     let interval = null;
     if (isRunning && timer > 0) {
@@ -51,14 +51,15 @@ const PoseDetailsScreen = ({ route, navigation }) => {
     } else if (isRunning && timer === 0) {
       clearInterval(interval);
       setIsRunning(false);
-      setModalVisible(false);
-      Alert.alert('Congratulations!', 'You have completed your yoga pose.');
+      setTimeout(() => {
+        setModalVisible(false);
+      }, 2000);
     }
     return () => clearInterval(interval);
   }, [isRunning, timer]);
 
   const startPractice = () => {
-    setTimer(30); // 30 seconds duration
+    setTimer(30); 
     setIsRunning(true);
     setModalVisible(true);
   };
@@ -104,7 +105,7 @@ const PoseDetailsScreen = ({ route, navigation }) => {
           </Text>
         </View>
       </ScrollView>
-      {/* Start Button */}
+    
       <View
         style={{
           bottom: 0,
@@ -123,7 +124,6 @@ const PoseDetailsScreen = ({ route, navigation }) => {
           textStyle={styles.startButtonText}
         />
       </View>
-      {/* Timer Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -131,32 +131,45 @@ const PoseDetailsScreen = ({ route, navigation }) => {
         onRequestClose={cancelTimer}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Yoga Timer</Text>
-            <Text style={styles.timerText}>{timer}s</Text>
+          {isRunning ? (
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Yoga Timer</Text>
+              <Text style={styles.timerText}>{timer}s</Text>
 
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[
-                  styles.modalButton,
-                  { backgroundColor: COLORS.secondary },
-                ]}
-                onPress={cancelTimer}
-              >
-                <Text style={styles.modalButtonText}>Cancel</Text>
-              </TouchableOpacity>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[
+                    styles.modalButton,
+                    { backgroundColor: COLORS.secondary },
+                  ]}
+                  onPress={cancelTimer}
+                >
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[
-                  styles.modalButton,
-                  { backgroundColor: COLORS.primary },
-                ]}
-                onPress={stopTimer}
-              >
-                <Text style={styles.modalButtonText}>Stop</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.modalButton,
+                    { backgroundColor: COLORS.primary },
+                  ]}
+                  onPress={stopTimer}
+                >
+                  <Text style={styles.modalButtonText}>Stop</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          ) : (
+            <View style={{ borderRadius: 20, backgroundColor: COLORS.white }}>
+              <LottieView
+                style={{
+                  height: 300,
+                  width: 300,
+                }}
+                source={require('../assets/animation/congratulation.json')}
+                autoPlay
+              />
+            </View>
+          )}
         </View>
       </Modal>
     </View>
@@ -196,7 +209,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     zIndex: 5,
     marginBottom: 95,
-  borderTopLeftRadius: 20,
+    borderTopLeftRadius: 20,
   },
   poseTitle: {
     fontFamily: FONTS.extraBold,
