@@ -40,7 +40,7 @@ const CategoryDetailScreen = ({ route, navigation }) => {
   }, [selectedDifficulty]);
 
   return (
-    <ScrollView style={globalStyles.container}>
+    <View style={globalStyles.container}>
       <View style={{ paddingVertical: 16, paddingHorizontal: 12 }}>
         <TouchableOpacity
           style={styles.backButton}
@@ -57,76 +57,77 @@ const CategoryDetailScreen = ({ route, navigation }) => {
           />
         )}
       </View>
+      <ScrollView>
+        <View style={styles.info}>
+          {/* Title & Description */}
+          <View style={{ padding: 16 }}>
+            <Text style={styles.title}>{category.category_name}</Text>
+            <Text style={styles.description}>
+              {category.category_description}
+            </Text>
+          </View>
 
-      <View style={styles.info}>
-        {/* Title & Description */}
-        <View style={{ padding: 16 }}>
-          <Text style={styles.title}>{category.category_name}</Text>
-          <Text style={styles.description}>
-            {category.category_description}
-          </Text>
-        </View>
-
-        {/* Difficulty Filters */}
-        <View style={styles.filtersContainer}>
-          {DIFFICULTY_LEVELS.map(level => (
-            <TouchableOpacity
-              key={level}
-              style={[
-                styles.filterButton,
-                selectedDifficulty === level && styles.filterButtonActive,
-              ]}
-              onPress={() => setSelectedDifficulty(level)}
-            >
-              <Text
+          {/* Difficulty Filters */}
+          <View style={styles.filtersContainer}>
+            {DIFFICULTY_LEVELS.map(level => (
+              <TouchableOpacity
+                key={level}
                 style={[
-                  styles.filterText,
-                  selectedDifficulty === level && styles.filterTextActive,
+                  styles.filterButton,
+                  selectedDifficulty === level && styles.filterButtonActive,
                 ]}
+                onPress={() => setSelectedDifficulty(level)}
               >
-                {level}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Poses */}
-        {loading ? (
-          <ActivityIndicator
-            size="large"
-            color={COLORS.primary}
-            style={{ marginTop: 20 }}
-          />
-        ) : poses.length > 0 ? (
-          <View style={{ paddingHorizontal: 16, paddingBottom: 20 }}>
-            {poses.map(pose => (
-              <PoseCard
-                key={pose.id}
-                pose={{
-                  ...pose,
-                  image: pose.url_png,
-                  level: pose.difficulty_level,
-                }}
-                onPress={() =>
-                  navigation.navigate('PoseDetailsScreen', { pose : pose.id })
-                }
-              />
+                <Text
+                  style={[
+                    styles.filterText,
+                    selectedDifficulty === level && styles.filterTextActive,
+                  ]}
+                >
+                  {level}
+                </Text>
+              </TouchableOpacity>
             ))}
           </View>
-        ) : (
-          <Text
-            style={{
-              textAlign: 'center',
-              marginTop: 20,
-              color: COLORS.textSecondary,
-              fontFamily: FONTS.regular,
-            }}
-          >
-            No poses found for {selectedDifficulty} level.
-          </Text>
-        )}
-      </View>
-    </ScrollView>
+
+          {/* Poses */}
+          {loading ? (
+            <ActivityIndicator
+              size="large"
+              color={COLORS.primary}
+              style={{ marginTop: 20 }}
+            />
+          ) : poses.length > 0 ? (
+            <View style={{ paddingHorizontal: 16, paddingBottom: 20 }}>
+              {poses.map(pose => (
+                <PoseCard
+                  key={pose.id}
+                  pose={{
+                    ...pose,
+                    image: pose.url_png,
+                    level: pose.difficulty_level,
+                  }}
+                  onPress={() =>
+                    navigation.navigate('PoseDetailsScreen', { pose: pose.id })
+                  }
+                />
+              ))}
+            </View>
+          ) : (
+            <Text
+              style={{
+                textAlign: 'center',
+                marginTop: 20,
+                color: COLORS.textSecondary,
+                fontFamily: FONTS.regular,
+              }}
+            >
+              No poses found for {selectedDifficulty} level.
+            </Text>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -135,7 +136,7 @@ export default CategoryDetailScreen;
 const styles = StyleSheet.create({
   categoryImage: {
     width: '100%',
-    height: 350,
+    height: 250,
     resizeMode: 'contain',
     marginTop: 10,
   },
