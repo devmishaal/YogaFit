@@ -17,19 +17,17 @@ export const COLORS = {
 };
 
 export const FONTS = {
-  regular: 'Nunito-Regular',
-  medium: 'Nunito-Medium',
-  semiBold: 'Nunito-SemiBold',
-  bold: 'Nunito-Bold',
-  extrabold: 'Nunito-ExtraBold',
+  regular: 'Poppins-Regular',
+  medium: 'Poppins-Medium',
+  semiBold: 'Poppins-SemiBold',
+  bold: 'Poppins-Bold',
+  extraBold: 'Poppins-ExtraBold', 
 };
 
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
   },
   titleText: {
     fontFamily: FONTS.bold,
@@ -52,7 +50,7 @@ export const globalStyles = StyleSheet.create({
   buttonText: {
     fontFamily: FONTS.medium,
     fontSize: 16,
-    color: '#FFFFFF',
+    color: COLORS.white,
   },
   card: {
     backgroundColor: COLORS.cardBackground,
@@ -66,7 +64,7 @@ export const globalStyles = StyleSheet.create({
     elevation: 3,
   },
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.white,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: COLORS.border,

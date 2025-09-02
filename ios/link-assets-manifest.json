@@ -2,68 +2,76 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/Nunito-Black.ttf",
-      "sha1": "9bc4857978df5a2d4340dfa7f2e1a5ebab04aaf5"
+      "path": "src/assets/fonts/Poppins-Black.ttf",
+      "sha1": "645e04c53c6b5b35bce654a811ebce16af8aa721"
     },
     {
-      "path": "src/assets/fonts/Nunito-BlackItalic.ttf",
-      "sha1": "481726fda1e57824bf4971e052e31802f49c518e"
+      "path": "src/assets/fonts/Poppins-BlackItalic.ttf",
+      "sha1": "be4ef2aac7775a4b0179c0ecfce6cea8f7783f63"
     },
     {
-      "path": "src/assets/fonts/Nunito-Bold.ttf",
-      "sha1": "4a505b70c66f48130872ed50b87e4cbebb1f2fbc"
+      "path": "src/assets/fonts/Poppins-Bold.ttf",
+      "sha1": "875cf0cecd647bcf22e79d633d868c1b1ec98dfa"
     },
     {
-      "path": "src/assets/fonts/Nunito-BoldItalic.ttf",
-      "sha1": "0d87b460e838beb01b088379f3ad3fa540b8b877"
+      "path": "src/assets/fonts/Poppins-BoldItalic.ttf",
+      "sha1": "6de8952ca08d27ee77f57347d2cef4b4e26aa78f"
     },
     {
-      "path": "src/assets/fonts/Nunito-ExtraBold.ttf",
-      "sha1": "350a651693803cf369b05732920d119fdf557d6f"
+      "path": "src/assets/fonts/Poppins-ExtraBold.ttf",
+      "sha1": "4b5c0750f073abd576413a0898d3b95adaf199c8"
     },
     {
-      "path": "src/assets/fonts/Nunito-ExtraBoldItalic.ttf",
-      "sha1": "5b6b732af26838546aaa494eca3ac0592c713452"
+      "path": "src/assets/fonts/Poppins-ExtraBoldItalic.ttf",
+      "sha1": "94d3ee3acdbd00e37a715a25f2b5237666b5b8a3"
     },
     {
-      "path": "src/assets/fonts/Nunito-ExtraLight.ttf",
-      "sha1": "3f61065495641280b08dac27e4fab46e788bd079"
+      "path": "src/assets/fonts/Poppins-ExtraLight.ttf",
+      "sha1": "85af6582a7e6155917c605f9d3fed68c02b23b06"
     },
     {
-      "path": "src/assets/fonts/Nunito-ExtraLightItalic.ttf",
-      "sha1": "9e1a9fc918bba8079f5496797a7ade4cd4e2cdba"
+      "path": "src/assets/fonts/Poppins-ExtraLightItalic.ttf",
+      "sha1": "6fa0418f91032680d2d8fe4843009f2c80faa61d"
     },
     {
-      "path": "src/assets/fonts/Nunito-Italic.ttf",
-      "sha1": "6fd4abf3af151e5678295a345f420ee3ba86042e"
+      "path": "src/assets/fonts/Poppins-Italic.ttf",
+      "sha1": "e2bfcd56016c3c915221ef1c5fc1a17b0776eb91"
     },
     {
-      "path": "src/assets/fonts/Nunito-Light.ttf",
-      "sha1": "250cafb545270387998ea2de3b4de5b9b496605c"
+      "path": "src/assets/fonts/Poppins-Light.ttf",
+      "sha1": "e247a92158e112f8bf7b638c8d95381d66b00dbb"
     },
     {
-      "path": "src/assets/fonts/Nunito-LightItalic.ttf",
-      "sha1": "ad90741b613f345f0ff9f9f33bf86258e51db587"
+      "path": "src/assets/fonts/Poppins-LightItalic.ttf",
+      "sha1": "f76102b361e705751a83b7b22fe954daf1f27dd4"
     },
     {
-      "path": "src/assets/fonts/Nunito-Medium.ttf",
-      "sha1": "6602087f0730c0980af15231022cf3471c8371f0"
+      "path": "src/assets/fonts/Poppins-Medium.ttf",
+      "sha1": "283f21b44efbdbf276ba802be2d949a36bbc4233"
     },
     {
-      "path": "src/assets/fonts/Nunito-MediumItalic.ttf",
-      "sha1": "24cdfe03f80f2463c6112f26e5b4c6fdb994826b"
+      "path": "src/assets/fonts/Poppins-MediumItalic.ttf",
+      "sha1": "b592c62fdf88c40cfd0f031bba6423b1d4430472"
     },
     {
-      "path": "src/assets/fonts/Nunito-Regular.ttf",
-      "sha1": "1061e4e1867b95fa1353d449970e3dcb23da5f40"
+      "path": "src/assets/fonts/Poppins-Regular.ttf",
+      "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
     },
     {
-      "path": "src/assets/fonts/Nunito-SemiBold.ttf",
-      "sha1": "c1b768ee15ef8969a6e6d9c59f9a4cd7c3ca2a5e"
+      "path": "src/assets/fonts/Poppins-SemiBold.ttf",
+      "sha1": "8a4ace9392d06bcb7f8ea2f5169b07e4c383a90d"
     },
     {
-      "path": "src/assets/fonts/Nunito-SemiBoldItalic.ttf",
-      "sha1": "519f79a38bf66bae446e241b1b1c86eac79d677f"
+      "path": "src/assets/fonts/Poppins-SemiBoldItalic.ttf",
+      "sha1": "0c8bed0a5942b2388d36b11c115685d9f01700b0"
+    },
+    {
+      "path": "src/assets/fonts/Poppins-Thin.ttf",
+      "sha1": "09ba4dcd5509c8085bf88c665dcc51cbdfced27b"
+    },
+    {
+      "path": "src/assets/fonts/Poppins-ThinItalic.ttf",
+      "sha1": "fb8fccca21550e71135f92bbaf8a2e8a12c90465"
     }
   ]
 }
