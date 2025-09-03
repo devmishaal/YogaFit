@@ -57,10 +57,6 @@ const SignInScreen = () => {
 
       // Sign-in the user with the credential
       return signInWithCredential(getAuth(), googleCredential);
-      // await signInWithCredential(getAuth(), googleCredential);
-      // console.log(getAuth());
-      // await firebase().collection('Users').doc()
-      // navigation.replace('Home');
     } catch (error) {
       console.error(error);
       Alert.alert('Google Sign-In failed', error.message);

@@ -41,7 +41,6 @@ const HomeScreen = ({ navigation }) => {
     loadCategories();
   }, []);
 
-  // Fetch logged-in user’s username
   useEffect(() => {
     const fetchUser = async () => {
       try {
