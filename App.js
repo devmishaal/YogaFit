@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 import { COLORS } from './src/styles/globalstyle';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -12,11 +12,11 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const subscriber = onAuthStateChanged(getAuth(), currentUser => {
+    const subscriber = auth().onAuthStateChanged(currentUser => {
       setUser(currentUser);
       if (initializing) setInitializing(false);
     });
-    return subscriber;
+    return subscriber; 
   }, []);
 
   if (initializing) {

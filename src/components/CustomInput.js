@@ -1,6 +1,13 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import React from 'react';
-import { COLORS, FONTS, globalStyles } from '../styles/globalstyle';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import { Eye, EyeOff } from 'lucide-react-native';
+import { COLORS, FONTS } from '../styles/globalstyle';
 
 const CustomInput = ({
   placeholder,
@@ -10,20 +17,32 @@ const CustomInput = ({
   value,
   onChangeText,
   secureTextEntry,
+  isPassword = false,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <View style={{ marginBottom: 12 }}>
       <Text style={[styles.label]}>{text}</Text>
       <View style={styles.inputWrapper}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { flex: 1 }]}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           keyboardType={keyboardType}
           value={value}
           onChangeText={onChangeText}
-          secureTextEntry={secureTextEntry}
+          secureTextEntry={isPassword && !showPassword}
         />
+        {isPassword && (
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            {showPassword ? (
+              <Eye size={20} color={COLORS.textSecondary} />
+            ) : (
+              <EyeOff size={20} color={COLORS.textSecondary} />
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -45,6 +64,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 14,
     backgroundColor: COLORS.cardBackground,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
     fontFamily: FONTS.regular,

@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { Bell } from 'lucide-react-native';
 import { COLORS, FONTS, globalStyles } from '../styles/globalstyle';
 import YogaGlassCard from '../components/YogaGlassCard';
 import { CARD_GRADIENTS } from '../utils/gradients';
 import { getAllCategories } from '../utils/webhandler';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const HomeScreen = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     const loadCategories = async () => {
       try {
         const data = await getAllCategories();
-        const categoriesWithImages = data.map((cat) => ({
+        const categoriesWithImages = data.map(cat => ({
           ...cat,
           image:
             cat.poses && cat.poses.length > 0
@@ -31,6 +41,27 @@ const HomeScreen = ({ navigation }) => {
     loadCategories();
   }, []);
 
+  // Fetch logged-in user’s username
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const currentUser = auth().currentUser;
+        if (currentUser) {
+          const userDoc = await firestore()
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+          if (userDoc.exists) {
+            setUsername(userDoc.data().username || 'Yogi');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+    fetchUser();
+  }, []);
+
   return (
     <View
       style={[
@@ -41,12 +72,18 @@ const HomeScreen = ({ navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcomeText}>Hello, Mishal 👋</Text>
-          <Text style={styles.subText}>Ready for your yoga practice today?</Text>
+          <Text style={styles.welcomeText}>Hello, {username} 👋</Text>
+          <Text style={styles.subText}>
+            Ready for your yoga practice today?
+          </Text>
         </View>
-        <View style={styles.bellContainer}>
+        <TouchableOpacity
+          style={styles.bellContainer}
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('NotificationScreen')}
+        >
           <Bell size={24} color={COLORS.textPrimary} />
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* Categories */}
