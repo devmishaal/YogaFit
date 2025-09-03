@@ -6,11 +6,19 @@ import auth from '@react-native-firebase/auth';
 import { COLORS } from './src/styles/globalstyle';
 import AppNavigator from './src/navigation/AppNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 
+ useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+      '148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com',
+    });
+  }, []);
+  
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(currentUser => {
       setUser(currentUser);

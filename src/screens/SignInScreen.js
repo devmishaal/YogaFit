@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -16,13 +16,56 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getAuth,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithCredential,
 } from '@react-native-firebase/auth';
 import { COLORS, globalStyles } from '../styles/globalstyle';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const SignInScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com',
+    });
+  }, []);
+
+  const onGoogleButtonPress = async () => {
+    try {
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+
+      // Get the users ID token
+      const signInResult = await GoogleSignin.signIn();
+
+      console.log(signInResult);
+      // Try the new style of google-sign in result, from v13+ of that module
+      let idToken = signInResult.data?.idToken || signInResult.idToken;
+
+      if (!idToken) {
+        throw new Error('No ID token found');
+      }
+
+      // Create a Google credential with the token
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      return signInWithCredential(getAuth(), googleCredential);
+      // await signInWithCredential(getAuth(), googleCredential);
+      // console.log(getAuth());
+      // await firebase().collection('Users').doc()
+      // navigation.replace('Home');
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Google Sign-In failed', error.message);
+    }
+  };
 
   const handleSignIn = async () => {
     if (!email.endsWith('@gmail.com')) {
@@ -98,9 +141,7 @@ const SignInScreen = () => {
                 />
                 <TouchableOpacity
                   style={{ alignSelf: 'flex-end', marginTop: 8 }}
-                  onPress={() =>
-                    navigation.navigate('ForgotPasswordScreen')
-                  }
+                  onPress={() => navigation.navigate('ForgotPasswordScreen')}
                 >
                   <Text
                     style={[
@@ -130,7 +171,10 @@ const SignInScreen = () => {
                     style={styles.icon}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
+                <TouchableOpacity
+                  style={styles.socialButton}
+                  onPress={onGoogleButtonPress}
+                >
                   <Image
                     source={require('../assets/images/google.png')}
                     style={styles.icon}
