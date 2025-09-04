@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "148917854976",
+    "project_id": "yogafit-b03c4",
+    "storage_bucket": "yogafit-b03c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148917854976:android:c5cd4a6339729aebc209e5",
+        "android_client_info": {
+          "package_name": "com.yogafit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148917854976-4qlhrb5d8ai17fslcvvu42m0tbpm5mu3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yogafit",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCunEVn-_TAlrZuTSwLIbrdLsxWx_5IwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
