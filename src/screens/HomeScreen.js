@@ -49,19 +49,32 @@ const HomeScreen = ({ navigation }) => {
     const fetchUser = async () => {
       try {
         const currentUser = auth().currentUser;
+
         if (currentUser) {
           const userDoc = await firestore()
             .collection('users')
             .doc(currentUser.uid)
             .get();
+
           if (userDoc.exists) {
-            setUsername(userDoc.data().username || 'Yogi');
+            const userData = userDoc.data();
+            setUsername(
+              userData.username || userData.email?.split('@')[0] || 'Yogi',
+            );
+          } else {
+            setUsername(
+              currentUser.displayName ||
+                currentUser.email?.split('@')[0] ||
+                'Yogi',
+            );
           }
         }
       } catch (error) {
         console.error('Error fetching user:', error);
+        setUsername('Yogi');
       }
     };
+
     fetchUser();
   }, []);
 

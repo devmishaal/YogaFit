@@ -18,10 +18,11 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithCredential,
 } from '@react-native-firebase/auth';
 import { COLORS, globalStyles } from '../styles/globalstyle';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const { width, height } = Dimensions.get('window');
 
@@ -42,13 +43,38 @@ const SignInScreen = () => {
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
+
       const signInResult = await GoogleSignin.signIn();
       const idToken = signInResult.data?.idToken || signInResult.idToken;
+
       if (!idToken) throw new Error('No ID token found');
+
       const googleCredential = GoogleAuthProvider.credential(idToken);
-      await signInWithCredential(getAuth(), googleCredential);
+
+      // Sign in to Firebase with Google credential
+      const userCredential = await auth().signInWithCredential(
+        googleCredential,
+      );
+      const user = userCredential.user;
+
+      // Save user details to Firestore
+      await firestore()
+        .collection('users')
+        .doc(user.uid)
+        .set(
+          {
+            uid: user.uid,
+            email: user.email,
+            username: user.displayName || '',
+            photoURL: user.photoURL || '',
+            provider: 'google',
+            lastLogin: new Date().toISOString(),
+          },
+          { merge: true }, // ✅ prevents overwriting if doc already exists
+        );
+
+      // Store login state in AsyncStorage
       await AsyncStorage.setItem('@isLoggedIn', JSON.stringify(true));
-      navigation.navigate('HomeScreen');
     } catch (error) {
       Alert.alert('Google Sign-In failed', error.message);
     }
@@ -148,27 +174,18 @@ const SignInScreen = () => {
             <Text style={[globalStyles.bodyText, { fontSize: width * 0.035 }]}>
               Or sign in with
             </Text>
-            <View style={{ flexDirection: 'row', marginTop: height * 0.02 }}>
-              <TouchableOpacity style={styles.socialButton}>
-                <Image
-                  source={require('../assets/images/apple.png')}
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
+
+            {/* Custom Google Button */}
+            <View style={{ marginTop: height * 0.02, width: '100%' }}>
               <TouchableOpacity
-                style={styles.socialButton}
+                style={styles.googleButton}
                 onPress={onGoogleButtonPress}
               >
                 <Image
                   source={require('../assets/images/google.png')}
-                  style={styles.icon}
+                  style={styles.googleIcon}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton}>
-                <Image
-                  source={require('../assets/images/fb.png')}
-                  style={styles.icon}
-                />
+                <Text style={styles.googleText}>Continue with Google</Text>
               </TouchableOpacity>
             </View>
 
@@ -202,19 +219,30 @@ const SignInScreen = () => {
 export default SignInScreen;
 
 const styles = {
-  socialButton: {
-    backgroundColor: COLORS.cardBackground,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    height: width * 0.12,
-    width: width * 0.12,
+  googleButton: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: width * 0.015,
+    backgroundColor: '#fff',
+    borderRadius: width * 0.035,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingVertical: height * 0.018,
+    paddingHorizontal: width * 0.06,
+    width: '100%',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2, // Android shadow
   },
-  icon: {
-    width: width * 0.08,
-    height: width * 0.08,
+  googleIcon: {
+    width: width * 0.06,
+    height: width * 0.06,
+    marginRight: width * 0.03,
+  },
+  googleText: {
+    fontSize: width * 0.04,
+    color: '#000',
+    fontWeight: '500',
   },
 };
