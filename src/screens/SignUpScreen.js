@@ -174,7 +174,7 @@ const SignUpScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={{ marginTop: height * 0.015 }}>
+            <TouchableOpacity style={{ marginTop: height * 0.015 }} onPress={() => navigation.navigate('TermandConditions')}>
               <Text
                 style={[
                   globalStyles.bodyText,

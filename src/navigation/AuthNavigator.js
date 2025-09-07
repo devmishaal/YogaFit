@@ -9,6 +9,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import PasswordResetVerificationScreen from '../screens/PasswordResetVerificationScreen';
+import TermandConditions from '../screens/TermandConditions';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ const AuthNavigator = () => {
         name="PasswordResetVerificationScreen"
         component={PasswordResetVerificationScreen}
       />
+      <Stack.Screen name='TermandConditions' component={TermandConditions} />
     </Stack.Navigator>
   );
 };

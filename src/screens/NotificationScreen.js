@@ -13,9 +13,25 @@ import {
 import { ArrowLeft, Bell, Trash2, Check } from 'lucide-react-native';
 import { COLORS, FONTS, globalStyles } from '../styles/globalstyle';
 import { useNavigation } from '@react-navigation/native';
-import notifee from '@notifee/react-native';
+import notifee, { AndroidImportance } from '@notifee/react-native';
 
 const { width, height } = Dimensions.get('window');
+
+const randomNotifications = [
+  { title: 'Time to Stretch', body: 'Do a quick 5-minute yoga session 🧘‍♀️' },
+  { title: 'Breathe Deeply', body: 'Take 3 deep breaths and relax.' },
+  {
+    title: 'Morning Flow',
+    body: 'Try a short yoga sequence to start your day.',
+  },
+  { title: 'Mindful Minute', body: 'Pause and meditate for a minute.' },
+  { title: 'Yoga Challenge', body: 'Hold a plank for 1 minute today!' },
+];
+
+const getRandomNotification = () => {
+  const index = Math.floor(Math.random() * randomNotifications.length);
+  return randomNotifications[index];
+};
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
@@ -24,50 +40,15 @@ const NotificationScreen = () => {
   const [filter, setFilter] = useState('all'); // 'all' | 'unread'
   const [refreshing, setRefreshing] = useState(false);
 
-  // Initial data load
+  // Start with empty list
   useEffect(() => {
-    loadNotifications();
+    setLoading(false);
   }, []);
 
-  const loadNotifications = async () => {
-    setLoading(true);
-    try {
-      // Simulate API call
-      setTimeout(() => {
-        setNotifications([
-          {
-            id: '1',
-            title: 'Daily Yoga Reminder',
-            message: 'Don’t forget to practice your 10 min morning yoga today!',
-            time: '2h ago',
-            read: false,
-          },
-          {
-            id: '2',
-            title: 'New Pose Unlocked',
-            message: 'You’ve unlocked “Crow Pose” in the Arm Balance category.',
-            time: '1d ago',
-            read: false,
-          },
-          {
-            id: '3',
-            title: 'Congrats 🎉',
-            message: 'You completed 7 days of continuous yoga practice!',
-            time: '3d ago',
-            read: true,
-          },
-        ]);
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  };
-
+  // Pull-to-refresh
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    loadNotifications().then(() => setRefreshing(false));
+    setTimeout(() => setRefreshing(false), 500);
   }, []);
 
   const markAsRead = id => {
@@ -83,22 +64,43 @@ const NotificationScreen = () => {
   const filteredNotifications =
     filter === 'all' ? notifications : notifications.filter(n => !n.read);
 
-  const onDisplayNotification = async () => {
+  // Display random notification and add to app list
+  const sendRandomNotification = async () => {
     await notifee.requestPermission();
     const channelId = await notifee.createChannel({
       id: 'default',
       name: 'Default Channel',
+      importance: AndroidImportance.HIGH,
     });
 
+    const notification = getRandomNotification();
+
     await notifee.displayNotification({
-      title: 'Daily Yoga Reminder',
-      body: 'Time to practice your yoga 🧘',
-      android: {
-        channelId,
-        smallIcon: 'ic_launcher',
-      },
+      title: notification.title,
+      body: notification.body,
+      android: { channelId, smallIcon: 'ic_launcher' },
     });
+
+    setNotifications(prev => [
+      {
+        id: Date.now().toString(),
+        title: notification.title,
+        message: notification.body,
+        time: 'Just now',
+        read: false,
+      },
+      ...prev,
+    ]);
   };
+
+  // Automatically send notification every hour
+  useEffect(() => {
+    const interval = setInterval(() => {
+      sendRandomNotification();
+    }, 3600000); // 1 hour = 3600000 ms
+
+    return () => clearInterval(interval);
+  }, []);
 
   const getFilterStyle = btnFilter => [
     styles.filterButton,
@@ -162,12 +164,8 @@ const NotificationScreen = () => {
           <Text style={[styles.header, { fontSize: width * 0.055 }]}>
             Notifications
           </Text>
-          <TouchableOpacity
-            style={styles.notifButton}
-            onPress={onDisplayNotification}
-          >
-            <Bell size={width * 0.055} color={COLORS.primary} />
-          </TouchableOpacity>
+          {/* Bell button removed */}
+          <View style={{ width: width * 0.06 }} />
         </View>
 
         {/* Filter Buttons */}
