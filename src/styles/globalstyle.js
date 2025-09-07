@@ -1,6 +1,8 @@
 // globalStyles.js
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export const COLORS = {
   background: '#ffeaffff',
@@ -28,35 +30,36 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+    paddingHorizontal: width * 0.00, // responsive horizontal padding
   },
   titleText: {
     fontFamily: FONTS.bold,
-    fontSize: 22,
+    fontSize: width * 0.055, // responsive font size (~22 on 400px width)
     color: COLORS.textPrimary,
-    marginBottom: 8,
+    marginBottom: height * 0.01, // responsive spacing
   },
   bodyText: {
     fontFamily: FONTS.regular,
-    fontSize: 14,
+    fontSize: width * 0.035, // responsive font size (~14)
     color: COLORS.textSecondary,
   },
   button: {
     backgroundColor: COLORS.primary,
-    paddingVertical: 14,
+    paddingVertical: height * 0.018, // responsive vertical padding
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
     fontFamily: FONTS.medium,
-    fontSize: 16,
+    fontSize: width * 0.04, // responsive font size (~16)
     color: COLORS.white,
   },
   card: {
     backgroundColor: COLORS.cardBackground,
     borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
+    padding: width * 0.04, // responsive padding
+    marginBottom: height * 0.015, // responsive margin
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
@@ -68,13 +71,13 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: COLORS.border,
-    padding: 12,
+    padding: height * 0.015, // responsive padding
     fontFamily: FONTS.regular,
-    fontSize: 16,
+    fontSize: width * 0.04,
     color: COLORS.textPrimary,
   },
   sliderButton: {
-    paddingVertical: 10,
+    paddingVertical: height * 0.015,
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',

@@ -5,9 +5,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { COLORS, FONTS } from '../styles/globalstyle';
+
+const { width, height } = Dimensions.get('window');
 
 const CustomInput = ({
   placeholder,
@@ -22,8 +25,8 @@ const CustomInput = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={{ marginBottom: 12 }}>
-      <Text style={[styles.label]}>{text}</Text>
+    <View style={{ marginBottom: height * 0.015 }}>
+      <Text style={styles.label}>{text}</Text>
       <View style={styles.inputWrapper}>
         <TextInput
           style={[styles.input, { flex: 1 }]}
@@ -37,9 +40,9 @@ const CustomInput = ({
         {isPassword && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             {showPassword ? (
-              <Eye size={20} color={COLORS.textSecondary} />
+              <Eye size={width * 0.05} color={COLORS.textSecondary} />
             ) : (
-              <EyeOff size={20} color={COLORS.textSecondary} />
+              <EyeOff size={width * 0.05} color={COLORS.textSecondary} />
             )}
           </TouchableOpacity>
         )}
@@ -53,23 +56,23 @@ export default CustomInput;
 const styles = StyleSheet.create({
   label: {
     fontFamily: FONTS.medium,
-    fontSize: 14,
+    fontSize: width * 0.04, // responsive font size
     color: COLORS.textPrimary,
-    marginBottom: 4,
+    marginBottom: height * 0.005, // responsive spacing
   },
   inputWrapper: {
     borderWidth: 1,
     borderColor: COLORS.border,
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    borderRadius: 14,
+    paddingHorizontal: width * 0.04, // responsive padding
+    paddingVertical: height * 0.004, // responsive vertical padding
+    borderRadius: width * 0.035, // responsive border radius
     backgroundColor: COLORS.cardBackground,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
     fontFamily: FONTS.regular,
-    fontSize: 16,
+    fontSize: width * 0.04, // responsive font size
     color: COLORS.textPrimary,
   },
 });

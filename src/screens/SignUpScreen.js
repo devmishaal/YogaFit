@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import React, { useState } from 'react';
 import CustomInput from '../components/CustomInput';
@@ -17,6 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { COLORS, FONTS, globalStyles } from '../styles/globalstyle';
+
+const { width, height } = Dimensions.get('window');
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -72,20 +75,31 @@ const SignUpScreen = () => {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={[globalStyles.container]}>
+        <View
+          style={[globalStyles.container, { paddingHorizontal: width * 0.04 }]}
+        >
           <Text
             style={[
               globalStyles.titleText,
-              { textAlign: 'center', fontSize: 30, marginTop: 50 },
+              {
+                textAlign: 'center',
+                fontSize: width * 0.08,
+                marginTop: height * 0.06,
+              },
             ]}
           >
             Create Account
           </Text>
-          <Text style={[globalStyles.bodyText, { textAlign: 'center' }]}>
+          <Text
+            style={[
+              globalStyles.bodyText,
+              { textAlign: 'center', fontSize: width * 0.04 },
+            ]}
+          >
             Fill your information below or register with your social account.
           </Text>
 
-          <View style={{ paddingHorizontal: 16, paddingVertical: 12 }}>
+          <View style={{ paddingVertical: height * 0.02 }}>
             <CustomInput
               placeholder={'johndoe'}
               text={'Username'}
@@ -98,7 +112,7 @@ const SignUpScreen = () => {
               keyboardType={'email-address'}
               value={email}
               onChangeText={setEmail}
-              style={{ marginTop: 12 }}
+              style={{ marginTop: height * 0.015 }}
             />
             <CustomInput
               placeholder={'**********'}
@@ -106,18 +120,17 @@ const SignUpScreen = () => {
               value={password}
               onChangeText={setPassword}
               isPassword={true}
-              style={{ marginTop: 12 }}
+              style={{ marginTop: height * 0.015 }}
             />
 
             <CustomButton title={'Sign Up'} onPress={SignUp} />
           </View>
 
-          {/* Social logins */}
-          <View style={{ alignItems: 'center', marginTop: 25 }}>
-            <Text style={[globalStyles.bodyText, { fontSize: 14 }]}>
+          <View style={{ alignItems: 'center', marginTop: height * 0.03 }}>
+            <Text style={[globalStyles.bodyText, { fontSize: width * 0.035 }]}>
               Or sign up with
             </Text>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+            <View style={{ flexDirection: 'row', marginTop: height * 0.02 }}>
               <TouchableOpacity style={styles.socialButton}>
                 <Image
                   source={require('../assets/images/apple.png')}
@@ -138,7 +151,7 @@ const SignUpScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View style={{ flexDirection: 'row', marginTop: 20 }}>
+            <View style={{ flexDirection: 'row', marginTop: height * 0.025 }}>
               <Text style={globalStyles.bodyText}>
                 Already have an account?
               </Text>
@@ -148,7 +161,12 @@ const SignUpScreen = () => {
                 <Text
                   style={[
                     globalStyles.bodyText,
-                    { color: COLORS.primary, marginLeft: 5 },
+                    {
+                      color: COLORS.primary,
+                      marginLeft: width * 0.02,
+                      textDecorationLine: 'underline',
+                      fontSize: width * 0.035,
+                    },
                   ]}
                 >
                   Sign In
@@ -156,11 +174,11 @@ const SignUpScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={{ marginTop: 12 }}>
+            <TouchableOpacity style={{ marginTop: height * 0.015 }}>
               <Text
                 style={[
                   globalStyles.bodyText,
-                  { textDecorationLine: 'underline' },
+                  { textDecorationLine: 'underline', fontSize: width * 0.035 },
                 ]}
               >
                 Terms & Conditions
@@ -181,14 +199,14 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: COLORS.border,
-    height: 40,
-    width: 40,
+    height: width * 0.12,
+    width: width * 0.12,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 5,
+    marginHorizontal: width * 0.015,
   },
   icon: {
-    width: 35,
-    height: 35,
+    width: width * 0.08,
+    height: width * 0.08,
   },
 });

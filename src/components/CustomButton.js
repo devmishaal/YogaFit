@@ -1,6 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { COLORS, FONTS } from '../styles/globalstyle';
+
+const { width, height } = Dimensions.get('window');
 
 const CustomButton = ({ title, onPress = () => {}, style, textStyle }) => {
   return (
@@ -21,9 +23,9 @@ export default CustomButton;
 const styles = StyleSheet.create({
   button: {
     backgroundColor: COLORS.primary, 
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 14,
+    paddingVertical: height * 0.018, // responsive vertical padding
+    paddingHorizontal: width * 0.06, // responsive horizontal padding
+    borderRadius: width * 0.035, // responsive border radius
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 6,
@@ -34,8 +36,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontSize: 16,
-    fontFamily: FONTS.extrabold, 
+    fontSize: width * 0.04, // responsive font size
+    fontFamily: FONTS.extraBold, 
     textAlign: 'center',
   },
   row: {
@@ -43,6 +45,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    marginLeft: 10,
+    marginLeft: width * 0.025, // responsive spacing for icons
   },
 });
