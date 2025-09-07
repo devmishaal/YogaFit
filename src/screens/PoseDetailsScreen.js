@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  SafeAreaView,
+  Dimensions,
 } from 'react-native';
 import { COLORS, FONTS, globalStyles } from '../styles/globalstyle';
 import { ArrowLeft } from 'lucide-react-native';
@@ -15,13 +17,15 @@ import { getPosebyId } from '../utils/webhandler';
 import CustomButton from '../components/CustomButton';
 import LottieView from 'lottie-react-native';
 
+const { width, height } = Dimensions.get('window');
+
 const PoseDetailsScreen = ({ route, navigation }) => {
   const { pose } = route.params;
 
   const [poses, setPoses] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const [timer, setTimer] = useState(0); 
+  const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -59,7 +63,7 @@ const PoseDetailsScreen = ({ route, navigation }) => {
   }, [isRunning, timer]);
 
   const startPractice = () => {
-    setTimer(30); 
+    setTimer(30);
     setIsRunning(true);
     setModalVisible(true);
   };
@@ -77,53 +81,112 @@ const PoseDetailsScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={globalStyles.container}>
-      <View style={{ paddingVertical: 16, paddingHorizontal: 12 }}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
+    <SafeAreaView style={globalStyles.container}>
+      <View style={{ flex: 1, paddingBottom: height * 0.001 }}>
+        <View
+          style={{
+            paddingTop: height * 0.02,
+            paddingHorizontal: width * 0.03,
+            paddingVertical: height * 0.01,
+          }}
         >
-          <ArrowLeft size={24} color={COLORS.textPrimary} />
-        </TouchableOpacity>
+          {/* Back Button */}
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <ArrowLeft size={width * 0.07} color={COLORS.textPrimary} />
+          </TouchableOpacity>
 
-        {poses.url_png && (
-          <Image source={{ uri: poses.url_png }} style={styles.poseImage} />
-        )}
-      </View>
-      <ScrollView>
-        <View style={styles.cardContainer}>
-          <Text style={styles.poseTitle}>{poses.english_name}</Text>
-
-          <Text style={styles.sectionTitle}>Benefits:</Text>
-          <Text style={styles.sectionText}>
-            {poses.pose_benefits || 'Benefits not available.'}
-          </Text>
-
-          <Text style={styles.sectionTitle}>Description:</Text>
-          <Text style={styles.sectionText}>
-            {poses.pose_description || 'Description not available.'}
-          </Text>
+          {/* Pose Image */}
+          {poses.url_png && (
+            <Image
+              source={{ uri: poses.url_png }}
+              style={[styles.poseImage, { height: height * 0.3 }]}
+            />
+          )}
         </View>
-      </ScrollView>
-    
+        <ScrollView>
+          {/* Pose Details */}
+          <View
+            style={[
+              styles.cardContainer,
+              {
+                marginTop: height * 0.02,
+                paddingHorizontal: width * 0.05,
+                paddingVertical: height * 0.02,
+                marginBottom: height * 0.1,
+              },
+            ]}
+          >
+            <Text style={[styles.poseTitle, { fontSize: width * 0.06 }]}>
+              {poses.english_name}
+            </Text>
+
+            <Text
+              style={[
+                styles.sectionTitle,
+                { fontSize: width * 0.045, marginTop: height * 0.02 },
+              ]}
+            >
+              Benefits:
+            </Text>
+            <Text
+              style={[
+                styles.sectionText,
+                { fontSize: width * 0.038, lineHeight: height * 0.03 },
+              ]}
+            >
+              {poses.pose_benefits || 'Benefits not available.'}
+            </Text>
+
+            <Text
+              style={[
+                styles.sectionTitle,
+                { fontSize: width * 0.045, marginTop: height * 0.02 },
+              ]}
+            >
+              Description:
+            </Text>
+            <Text
+              style={[
+                styles.sectionText,
+                { fontSize: width * 0.038, lineHeight: height * 0.03 },
+              ]}
+            >
+              {poses.pose_description || 'Description not available.'}
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* Start Practice Button */}
       <View
         style={{
-          bottom: 0,
           position: 'absolute',
+          bottom: height * 0.001,
           width: '100%',
           backgroundColor: COLORS.background,
-          borderRadius: 20,
+          paddingVertical: height * 0.02,
+          paddingHorizontal: width * 0.03,
           zIndex: 10,
-          paddingVertical: 7,
+          borderTopEndRadius: 20,
+          borderTopStartRadius: 20,
         }}
       >
         <CustomButton
           title={'Start Practice'}
           onPress={startPractice}
-          style={styles.startButton}
-          textStyle={styles.startButtonText}
+          style={{
+            paddingVertical: height * 0.02,
+            marginHorizontal: width * 0.03,
+            borderRadius: width * 0.035,
+          }}
+          textStyle={{ fontSize: width * 0.045 }}
         />
       </View>
+
+      {/* Modal Timer */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -132,9 +195,18 @@ const PoseDetailsScreen = ({ route, navigation }) => {
       >
         <View style={styles.modalOverlay}>
           {isRunning ? (
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>Yoga Timer</Text>
-              <Text style={styles.timerText}>{timer}s</Text>
+            <View
+              style={[
+                styles.modalContainer,
+                { width: width * 0.8, padding: width * 0.05 },
+              ]}
+            >
+              <Text style={[styles.modalTitle, { fontSize: width * 0.05 }]}>
+                Yoga Timer
+              </Text>
+              <Text style={[styles.timerText, { fontSize: width * 0.12 }]}>
+                {timer}s
+              </Text>
 
               <View style={styles.modalButtons}>
                 <TouchableOpacity
@@ -144,7 +216,11 @@ const PoseDetailsScreen = ({ route, navigation }) => {
                   ]}
                   onPress={cancelTimer}
                 >
-                  <Text style={styles.modalButtonText}>Cancel</Text>
+                  <Text
+                    style={[styles.modalButtonText, { fontSize: width * 0.04 }]}
+                  >
+                    Cancel
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -154,17 +230,24 @@ const PoseDetailsScreen = ({ route, navigation }) => {
                   ]}
                   onPress={stopTimer}
                 >
-                  <Text style={styles.modalButtonText}>Stop</Text>
+                  <Text
+                    style={[styles.modalButtonText, { fontSize: width * 0.04 }]}
+                  >
+                    Stop
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           ) : (
-            <View style={{ borderRadius: 20, backgroundColor: COLORS.white }}>
+            <View
+              style={{
+                borderRadius: 20,
+                backgroundColor: COLORS.white,
+                padding: width * 0.05,
+              }}
+            >
               <LottieView
-                style={{
-                  height: 300,
-                  width: 300,
-                }}
+                style={{ height: width * 0.7, width: width * 0.7 }}
                 source={require('../assets/animation/congratulation.json')}
                 autoPlay
               />
@@ -172,7 +255,7 @@ const PoseDetailsScreen = ({ route, navigation }) => {
           )}
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -181,68 +264,46 @@ export default PoseDetailsScreen;
 const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
-    top: 30,
-    left: 20,
+    top: height * 0.04,
+    left: width * 0.06,
     zIndex: 10,
     backgroundColor: COLORS.cardBackground,
-    padding: 6,
-    borderRadius: 20,
+    padding: width * 0.015,
+    borderRadius: width * 0.05,
     elevation: 5,
   },
   poseImage: {
     width: '100%',
-    height: 250,
     resizeMode: 'contain',
     marginTop: 20,
+    borderRadius: 12,
   },
   cardContainer: {
     flex: 1,
     backgroundColor: COLORS.cardBackground,
     borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     elevation: 5,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
-    marginTop: 16,
     zIndex: 5,
-    marginBottom: 95,
-    borderTopLeftRadius: 20,
   },
   poseTitle: {
     fontFamily: FONTS.extraBold,
-    fontSize: 24,
     color: COLORS.textPrimary,
     textAlign: 'center',
     marginBottom: 6,
   },
   sectionTitle: {
     fontFamily: FONTS.semiBold,
-    fontSize: 18,
     color: COLORS.textPrimary,
-    marginTop: 20,
     marginBottom: 6,
   },
   sectionText: {
     fontFamily: FONTS.regular,
-    fontSize: 14,
     color: COLORS.textSecondary,
-    lineHeight: 22,
-  },
-  startButton: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginVertical: 20,
-    marginHorizontal: 10,
-  },
-  startButtonText: {
-    fontFamily: FONTS.bold,
-    fontSize: 16,
-    color: '#fff',
   },
   modalOverlay: {
     flex: 1,
@@ -251,21 +312,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContainer: {
-    width: '80%',
     backgroundColor: COLORS.cardBackground,
     borderRadius: 20,
-    padding: 20,
     alignItems: 'center',
     elevation: 10,
   },
   modalTitle: {
-    fontSize: 20,
     fontFamily: FONTS.bold,
     color: COLORS.textPrimary,
     marginBottom: 10,
   },
   timerText: {
-    fontSize: 48,
     fontFamily: FONTS.extraBold,
     color: COLORS.primary,
     marginVertical: 20,
@@ -285,6 +342,5 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: '#fff',
     fontFamily: FONTS.bold,
-    fontSize: 16,
   },
 });

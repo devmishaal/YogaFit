@@ -6,12 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS } from '../styles/globalstyle';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const slides = [
   {
@@ -39,17 +40,18 @@ const AppIntroSliderScreen = () => {
   const sliderRef = useRef(null);
 
   const renderItem = ({ item }) => (
-    <View style={styles.slide}>
+    <SafeAreaView style={styles.slide}>
       <Image source={item.image} style={styles.image} resizeMode="contain" />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.text}>{item.text}</Text>
-    </View>
+    </SafeAreaView>
   );
 
   const renderButton = (label, onPress, buttonStyle) => (
     <TouchableOpacity
       style={[styles.buttonContainer, buttonStyle]}
       onPress={onPress}
+      activeOpacity={0.8}
     >
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
@@ -62,7 +64,7 @@ const AppIntroSliderScreen = () => {
           {slides.map((_, i) => (
             <View
               key={i}
-              style={[styles.dot, i === activeIndex ? styles.activeDot : null]}
+              style={[styles.dot, i === activeIndex && styles.activeDot]}
             />
           ))}
         </View>
@@ -97,7 +99,6 @@ const AppIntroSliderScreen = () => {
       ref={sliderRef}
       renderItem={renderItem}
       data={slides}
-      // onDone={() => navigation.replace('HomeScreen')}
       renderPagination={renderPagination}
       bottomButton={false}
       containerStyle={styles.sliderContainer}
@@ -126,18 +127,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    fontFamily: FONTS.extrabold,
+    fontFamily: FONTS.extraBold,
     color: COLORS.textPrimary,
     textAlign: 'center',
     marginBottom: 10,
-    padding: 10,
+    paddingHorizontal: 10,
   },
   text: {
     fontSize: 14,
     fontFamily: FONTS.medium,
     color: COLORS.textSecondary,
     textAlign: 'center',
-    padding: 10,
+    paddingHorizontal: 10,
   },
   paginationContainer: {
     paddingBottom: 30,
@@ -166,11 +167,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    backgroundColor: COLORS.background,
   },
   buttonContainer: {
-    paddingVertical: 10,
-    borderRadius: 25,
+    paddingVertical: height * 0.018,
+    borderRadius: width * 0.035,
     alignItems: 'center',
     justifyContent: 'center',
   },

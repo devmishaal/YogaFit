@@ -4,14 +4,19 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Dimensions,
   Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { COLORS, globalStyles } from '../styles/globalstyle';
+
+const { width, height } = Dimensions.get('window');
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation();
@@ -33,37 +38,75 @@ const ForgotPasswordScreen = () => {
   };
 
   return (
-    <View style={globalStyles.container}>
-      <Text style={[globalStyles.titleText, { textAlign: 'center', fontSize: 28 , marginTop:20}]}>
-        Forgot Password
-      </Text>
-      <Text style={[globalStyles.bodyText, { textAlign: 'center', marginVertical: 12 }]}>
-        Enter your registered email below to receive password reset instructions.
-      </Text>
-
-      <CustomInput
-        placeholder="example@gmail.com"
-        text="Email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      <CustomButton
-        title="Send Reset Link"
-        onPress={handleResetPassword}
-        style={{ marginTop: 20 }}
-      />
-
-      <TouchableOpacity
-        style={{ marginTop: 20, alignItems: 'center' }}
-        onPress={() => navigation.navigate('SignInScreen')}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: COLORS.background }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          paddingHorizontal: width * 0.05,
+        }}
+        keyboardShouldPersistTaps="handled"
       >
-        <Text style={[globalStyles.bodyText, { color: COLORS.primary }]}>
-          Back to Sign In
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <View style={{ flex: 1, paddingTop: height * 0.1 }}>
+          <Text
+            style={[
+              globalStyles.titleText,
+              {
+                textAlign: 'center',
+                fontSize: width * 0.08,
+                marginBottom: height * 0.02,
+              },
+            ]}
+          >
+            Forgot Password
+          </Text>
+          <Text
+            style={[
+              globalStyles.bodyText,
+              {
+                textAlign: 'center',
+                marginBottom: height * 0.03,
+                fontSize: width * 0.04,
+              },
+            ]}
+          >
+            Enter your registered email below to receive password reset
+            instructions.
+          </Text>
+
+          <CustomInput
+            placeholder="example@gmail.com"
+            text="Email"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <CustomButton
+            title="Send Reset Link"
+            onPress={handleResetPassword}
+            style={{ marginTop: height * 0.03 }}
+          />
+
+          <TouchableOpacity
+            style={{ marginTop: height * 0.03, alignItems: 'center' }}
+            onPress={() => navigation.navigate('SignInScreen')}
+          >
+            <Text
+              style={[
+                globalStyles.bodyText,
+                { color: COLORS.primary, fontSize: width * 0.04 },
+              ]}
+            >
+              Back to Sign In
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

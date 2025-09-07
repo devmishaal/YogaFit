@@ -10,9 +10,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS, FONTS } from '../styles/globalstyle';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.9;
-const CARD_HEIGHT = 130;
+const CARD_HEIGHT = height * 0.18; // responsive height
 
 const GRADIENTS = {
   Beginner: ['#34D399', '#BBF7D0'],
@@ -60,21 +60,21 @@ const styles = StyleSheet.create({
   cardWrapper: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    borderRadius: 20,
+    borderRadius: width * 0.05, // responsive border radius
     overflow: 'hidden',
     alignSelf: 'center',
-    marginBottom: 16,
+    marginBottom: height * 0.02,
   },
   gradient: {
     flex: 1,
-    borderRadius: 20,
+    borderRadius: width * 0.05,
     justifyContent: 'center',
-    padding: 16,
+    padding: width * 0.04, // responsive padding
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 20,
+    borderRadius: width * 0.05,
   },
   contentRow: {
     flexDirection: 'row',
@@ -83,30 +83,30 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    paddingRight: 10,
+    paddingRight: width * 0.025, // responsive padding
   },
   title: {
-    fontSize: 18,
+    fontSize: width * 0.045, // responsive font
     fontFamily: FONTS.bold,
     color: COLORS.white,
-    marginBottom: 6,
+    marginBottom: height * 0.008,
   },
   tag: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: width * 0.025,
+    paddingVertical: height * 0.005,
+    borderRadius: width * 0.03,
     alignSelf: 'flex-start',
   },
   tagText: {
-    fontSize: 12,
+    fontSize: width * 0.03,
     fontFamily: FONTS.medium,
     color: COLORS.white,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: width * 0.25, // responsive image width
+    height: width * 0.25, // maintain square
     resizeMode: 'contain',
-    borderRadius: 12,
+    borderRadius: width * 0.03,
   },
 });

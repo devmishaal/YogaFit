@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import { COLORS, FONTS } from '../styles/globalstyle';
+
+const { width, height } = Dimensions.get('window');
 
 const LetsGetStartedScreen = ({ navigation }) => {
   return (
@@ -26,7 +28,7 @@ const LetsGetStartedScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('SignUpScreen')}
           icon={true}
           buttonStyle={{ backgroundColor: COLORS.primary }}
-          textStyle={{ color: '#fff', fontFamily: FONTS.extrabold }}
+          textStyle={{ color: '#fff', fontFamily: FONTS.extraBold }}
         />
 
         <View style={styles.signInRow}>
@@ -46,50 +48,50 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    justifyContent: 'center',
   },
   image: {
-    width: '100%',
-    height: '60%',
+    width: width,
+    height: height * 0.6,
     position: 'absolute',
     top: 0,
     left: 0,
-    right: 0,
   },
   heading: {
-    fontSize: 26,
+    fontSize: width * 0.07, // scales with screen width
     color: COLORS.primary,
-    fontFamily: FONTS.extrabold,
+    fontFamily: FONTS.extraBold,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: height * 0.02,
   },
   description: {
-    fontSize: 16,
+    fontSize: width * 0.04, // scales with screen width
     color: COLORS.textSecondary,
     fontFamily: FONTS.medium,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: height * 0.03,
+    lineHeight: width * 0.06,
   },
   signInRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 15,
+    marginTop: height * 0.015,
   },
   signInText: {
     color: COLORS.textSecondary,
     fontFamily: FONTS.regular,
-    fontSize: 14,
+    fontSize: width * 0.035,
   },
   signInLink: {
     color: COLORS.primary,
-    fontFamily: FONTS.extrabold,
+    fontFamily: FONTS.extraBold,
     textDecorationLine: 'underline',
-    marginLeft: 7,
+    marginLeft: width * 0.02,
+    fontSize: width * 0.035,
   },
   infoBox: {
     backgroundColor: COLORS.cardBackground,
     width: '100%',
-    height: '50%',
+    minHeight: height * 0.45, // responsive height
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     elevation: 10,
@@ -98,10 +100,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     alignSelf: 'center',
-    padding: 20,
-    position: 'absolute',
-    zIndex: 10,
-    bottom: 0,
+    paddingHorizontal: 20,
     paddingVertical: 30,
+    position: 'absolute',
+    bottom: 0,
+    zIndex: 10,
   },
 });
