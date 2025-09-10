@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "148917854976-o9r8flq77n4be2nu7nkkrtvnllun79m7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yogafit",
+            "certificate_hash": "a7fea5e3ed3cdc02a549f2e994b9d3dcce4af2ff"
+          }
+        },
+        {
           "client_id": "148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com",
           "client_type": 3
         }

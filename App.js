@@ -7,24 +7,25 @@ import { COLORS } from './src/styles/globalstyle';
 import AppNavigator from './src/navigation/AppNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 
- useEffect(() => {
+  useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-      '148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com',
+        '148917854976-ul8t50ti31pml63u81dsjhv1tepbcbo7.apps.googleusercontent.com',
     });
   }, []);
-  
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(currentUser => {
       setUser(currentUser);
       if (initializing) setInitializing(false);
     });
-    return subscriber; 
+    return subscriber;
   }, []);
 
   if (initializing) {
@@ -44,7 +45,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {user ? <AppNavigator /> : <AuthNavigator />}
+      <SafeAreaView style={{ flex: 1 }}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </SafeAreaView>
     </NavigationContainer>
   );
 };
